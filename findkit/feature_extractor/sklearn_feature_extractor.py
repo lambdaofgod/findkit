@@ -6,5 +6,5 @@ class SklearnFeatureExtractor(FeatureExtractor):
     def __init__(self, sklearn_transformer):
         self.transformer = sklearn_transformer
 
-    def extract_features(self, data):
+    def extract_features(self, data, **kwargs):
         return self.transformer.transform(data)
