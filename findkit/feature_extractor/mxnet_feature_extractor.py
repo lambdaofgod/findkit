@@ -14,7 +14,7 @@ class MXNetFeatureExtractor(FeatureExtractor):
 
     def extract_features(self, data, **kwargs):
         data_iter = NDArrayIter(data)
-        return self.transformer.predict(data_iter)
+        return self.transformer.predict(data_iter).asnumpy()
 
     @classmethod
     def truncate_module(cls, module, layer_name):
