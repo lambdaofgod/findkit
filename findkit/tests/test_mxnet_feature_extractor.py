@@ -33,6 +33,9 @@ def test_mxnet_feature_extractor(fake_random_data, mxnet_module):
     extracted_features = feature_extractor.extract_features(fake_random_data)
 
     intermediate_symbol = mxnet_module.symbol.get_internals()['x_output']
-    symbol_extracted_features_ndarray = intermediate_symbol.eval(data=mx.nd.array(fake_random_data), **mxnet_module.get_params()[0])[0]
+    symbol_extracted_features_ndarray = intermediate_symbol.eval(
+        data=mx.nd.array(fake_random_data),
+        **mxnet_module.get_params()[0]
+    )[0]
 
     assert np.linalg.norm(extracted_features - symbol_extracted_features_ndarray.asnumpy()) < TOL
