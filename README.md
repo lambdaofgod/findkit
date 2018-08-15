@@ -18,11 +18,7 @@ This library aims to provide unified interface for machine learning frameworks a
 
 #### Main pipeline
 
-Load data -> Extract features -> Construct Nearest Neighbor Index
-
-**Tools used in pipeline**:
-
-Numpy -> `FeatureExtractor` -> `Index`
+![](resources/Pipeline%20Diagram.png)
 
 ### What's implemented
 
