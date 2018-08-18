@@ -22,19 +22,26 @@ This library aims to provide unified interface for machine learning frameworks a
 
 ### What's implemented
 
+- `VectorLoader`
+    - `FunctionVectorLoader`
+        - `STFTVectorLoader` (uses [librosa](https://librosa.github.io/librosa/))
+    - `Doc2VecLoader` (planned)
+
 - `FeatureExtractor`
     - `KerasFeatureExtractor` ([minimal example](https://github.com/lambdaofgod/findkit/blob/master/examples/keras%20extractor%20%26%20annoy%20index.ipynb))
     - `SklearnFeatureExtractor`([minimal example](https://github.com/lambdaofgod/findkit/blob/master/examples/sklearn%20extractor%20%26%20annoy%20index.ipynb))
-    - `MXNetFeatureExtractor` (uses MXNet Module API, unfinished)
+    - `MXNetFeatureExtractor` (uses [MXNet Module API](https://mxnet.apache.org/api/python/module/module.html), unfinished)
     - `GluonFeatureExtractor` (planned)
     
 - `Index`
     - `AnnoyIndex`
+    - `NMSLibIndex` (planned)
     
     
 ### Useful links
 
 * [Keras models](https://keras.io/applications/)
-* [MXNet Module API](https://mxnet.apache.org/api/python/module/module.html)
+* [MXNet](https://mxnet.apache.org)
 * [annoy](https://github.com/spotify/annoy)
+* [NMSLib](https://github.com/nmslib/nmslib/tree/master/python_bindings), its [manual](https://pdfs.semanticscholar.org/d9d8/744fa1c527780739a843fd825b669a372a24.pdf) is a good source of knowledge on approximate nearest neighbors algorithms
 * [Approximate Nearest Neighbours for Recommender Systems](https://www.benfrederickson.com/approximate-nearest-neighbours-for-recommender-systems/)
