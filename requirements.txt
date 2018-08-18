@@ -6,3 +6,4 @@ annoy>=1.12.0
 Keras==2.2.0
 tensorflow>=1.4.0
 mxnet>=1.0.0
+librosa>=0.6.2
