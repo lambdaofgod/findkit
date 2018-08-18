@@ -27,7 +27,6 @@ This library aims to provide unified interface for machine learning frameworks a
     - `SklearnFeatureExtractor`([minimal example](https://github.com/lambdaofgod/findkit/blob/master/examples/sklearn%20extractor%20%26%20annoy%20index.ipynb))
     - `MXNetFeatureExtractor` (uses MXNet Module API, unfinished)
     - `GluonFeatureExtractor` (planned)
-    - `TextFeatureExtractor` (planned)
     
 - `Index`
     - `AnnoyIndex`
