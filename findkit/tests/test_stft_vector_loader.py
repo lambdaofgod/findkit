@@ -4,7 +4,7 @@ import numpy
 
 
 def test_load_from_files():
-    audio_path = librosa.util.example_audio_file()
+    audio_path = librosa.util.example_audio_file() # Kevin_MacLeod_-_Vibe_Ace.ogg
 
     sampling_rate = 22050
     loader = STFTVectorLoader(sampling_rate=sampling_rate)

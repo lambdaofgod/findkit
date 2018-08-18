@@ -4,7 +4,8 @@ import librosa
 
 class STFTVectorLoader(FunctionVectorLoader):
     """
-    Load vectors from audio files using librosa for loading and STFT extraction
+    Load vectors from audio files using librosa for loading and STFT extractioin
+    Handles .wav, .mp3 and .ogg formats if appropriate codecs are installed.
 
     Parameters
     ----------

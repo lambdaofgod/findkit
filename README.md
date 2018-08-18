@@ -24,7 +24,9 @@ This library aims to provide unified interface for machine learning frameworks a
 
 - `VectorLoader`
     - `FunctionVectorLoader`
-        - `STFTVectorLoader` (uses [librosa](https://librosa.github.io/librosa/))
+        - Audio
+            - `STFTVectorLoader` (uses [librosa](https://librosa.github.io/librosa/))
+            - `EssentiaVectorLoader` (uses features extracted using [essentia](http://essentia.upf.edu/documentation/), planned) 
     - `Doc2VecLoader` (planned)
 
 - `FeatureExtractor`
@@ -40,6 +42,7 @@ This library aims to provide unified interface for machine learning frameworks a
     
 ### Useful links
 
+* [Notes on Music Information Retrieval](https://musicinformationretrieval.com)
 * [Keras models](https://keras.io/applications/)
 * [MXNet](https://mxnet.apache.org)
 * [annoy](https://github.com/spotify/annoy)
