@@ -25,6 +25,9 @@ class KerasFeatureExtractor(FeatureExtractor):
         batch_size = kwargs.get('batch_size')
         return self.transformer.predict(data, batch_size=batch_size)
 
+    def extract_features_generator(self, data_generator, **kwargs):
+        return self.transformer.predict_generator(data_generator, **kwargs)
+
     @classmethod
     def truncate_model(cls, keras_model, layer_name):
         intermediate_layer = keras_model.get_layer(name=layer_name)
