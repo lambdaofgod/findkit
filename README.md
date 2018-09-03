@@ -1,6 +1,5 @@
 # findkit
 
-----
 
 A Python library for content-based information retrieval.
 
@@ -30,16 +29,22 @@ This library aims to provide unified interface for machine learning frameworks a
     - `Doc2VecLoader` (planned)
 
 - `FeatureExtractor`
-    - `KerasFeatureExtractor` ([minimal example](https://github.com/lambdaofgod/findkit/blob/master/examples/keras%20extractor%20%26%20annoy%20index.ipynb))
-    - `SklearnFeatureExtractor`([minimal example](https://github.com/lambdaofgod/findkit/blob/master/examples/sklearn%20extractor%20%26%20annoy%20index.ipynb))
+    - `KerasFeatureExtractor` 
+    - `SklearnFeatureExtractor`
     - `MXNetFeatureExtractor` (uses [MXNet Module API](https://mxnet.apache.org/api/python/module/module.html), unfinished)
     - `GluonFeatureExtractor` (planned)
     
 - `Index`
     - `AnnoyIndex`
     - `NMSLibIndex` (planned)
-    
-    
+
+
+### Examples
+
+* [Keras Extractor and Annoy Index](https://github.com/lambdaofgod/findkit/blob/master/examples/keras%20extractor%20%26%20annoy%20index.ipynb)
+* [Scikit-learn Extractor and Annoy Index](https://github.com/lambdaofgod/findkit/blob/master/examples/sklearn%20extractor%20%26%20annoy%20index.ipynb)
+* [Music similarity search using ConvNet Features on STFT spectrograms](https://colab.research.google.com/github/lambdaofgod/findkit/blob/master/examples/Music%20similarity%20search%20using%20ConvNet%20on%20STFT%20spectrograms.ipynb#)
+
 ### Useful links
 
 * [Notes on Music Information Retrieval](https://musicinformationretrieval.com)

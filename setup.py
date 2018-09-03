@@ -10,6 +10,6 @@ setup(
     description='A Python library for content-based information retrieval',
     url='https://github.com/lambdaofgod/findkit',
     author='Jakub Bartczuk',
-    py_modules=find_packages(),
+    packages=find_packages(),
     install_requires=requirements
 )

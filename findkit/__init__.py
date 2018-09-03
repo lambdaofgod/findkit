@@ -1,2 +1,3 @@
-import findkit.index
-import findkit.feature_extractor
+from . import feature_extractor
+from . import index
+from . import vector_loader
