@@ -1,6 +1,10 @@
 from .feature_extractor import FeatureExtractor
-from mxnet.module import Module
-from mxnet.io import NDArrayIter
+
+try:
+    import mxnet as mx
+except ImportError:
+    import logging
+    logging.info('Warning: you did not install MXNet')
 
 
 class MXNetFeatureExtractor(FeatureExtractor):
@@ -13,13 +17,13 @@ class MXNetFeatureExtractor(FeatureExtractor):
         self.transformer = module
 
     def extract_features(self, data, **kwargs):
-        data_iter = NDArrayIter(data)
+        data_iter = mx.io.NDArrayIter(data)
         return self.transformer.predict(data_iter).asnumpy()
 
     @classmethod
     def truncate_module(cls, module, layer_name):
         intermediate_layer = module.symbol.get_internals()[layer_name + '_output']
-        intermediate_module = Module(intermediate_layer, label_names=[])
+        intermediate_module = mx.module.Module(intermediate_layer, label_names=[])
         intermediate_module.bind(data_shapes=module.data_shapes)
         intermediate_module.init_params(arg_params=module.get_params()[0])
         return intermediate_module

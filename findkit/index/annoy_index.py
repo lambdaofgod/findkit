@@ -1,8 +1,8 @@
 from ..index.index import Index
-import annoy
 
 
 class AnnoyIndex(Index):
+    import annoy
 
     def __init__(self, data, n_trees, metric='euclidean'):
         self.dimensionality = data.shape[1]
