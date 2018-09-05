@@ -21,3 +21,4 @@ class AnnoyIndex(Index):
 
     def find_similar(self, query_object, n_returned):
         return self._index.get_nns_by_vector(query_object, n=n_returned, include_distances=True)
+

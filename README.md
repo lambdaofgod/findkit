@@ -31,12 +31,12 @@ This library aims to provide unified interface for machine learning frameworks a
 - `FeatureExtractor`
     - `KerasFeatureExtractor` 
     - `SklearnFeatureExtractor`
-    - `MXNetFeatureExtractor` (uses [MXNet Module API](https://mxnet.apache.org/api/python/module/module.html), unfinished)
+    - `MXNetFeatureExtractor` (uses [MXNet Module API](https://mxnet.apache.org/api/python/module/module.html), experimental)
     - `GluonFeatureExtractor` (planned)
     
 - `Index`
     - `AnnoyIndex`
-    - `NMSLibIndex` (planned)
+    - `NMSLibIndex` (experimental)
 
 
 ### Examples
