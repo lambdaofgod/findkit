@@ -2,9 +2,10 @@ from ..index.index import Index
 
 
 class AnnoyIndex(Index):
-    import annoy
 
     def __init__(self, data, n_trees, metric='euclidean'):
+        import annoy
+
         self.dimensionality = data.shape[1]
         self.num_examples = data.shape[0]
         self.metric = metric
