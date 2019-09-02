@@ -1,21 +1,20 @@
+import attr
+
 from ..index.index import Index
 
 
+@attr.s
 class NMSLIBIndex(Index):
 
-    def __init__(self, data, method='hnsw', metric='l2'):
+    _index = attr.ib()
+
+    @staticmethod
+    def build(data, method='hnsw', metric='l2', print_progress=True):
         import nmslib
-
-        self.metric = metric
-        self.method = method
-        self._index = nmslib.init(method=method, space=metric)
-
-        self._build_index(data)
-
-    def _build_index(self, data, print_progress=True):
-        self._index.addDataPointBatch(data)
-
-        self._index.createIndex(print_progress=print_progress)
+        _index = nmslib.init(method=method, space=metric)
+        _index.addDataPointBatch(data)
+        _index.createIndex(print_progress=print_progress)
+        return NMSLIBIndex(_index)
 
     def find_similar(self, query_object, n_returned):
         return self._index.knnQuery(query_object, k=n_returned)

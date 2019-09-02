@@ -1,17 +1,24 @@
+import attr
+
 from ..index.index import Index
 
 
+@attr.s
 class AnnoyIndex(Index):
 
-    def __init__(self, data, n_trees, metric='euclidean'):
+    _index = attr.ib()
+    dimensionality = attr.ib()
+    num_examples = attr.ib()
+    metric = attr.ib()
+
+    @staticmethod
+    def build(data, n_trees, metric='euclidean'):
         import annoy
-
-        self.dimensionality = data.shape[1]
-        self.num_examples = data.shape[0]
-        self.metric = metric
-        self._index = annoy.AnnoyIndex(f=self.dimensionality, metric=metric)
-
-        self._build_index(data, n_trees)
+        dimensionality = data.shape[1]
+        num_examples = data.shape[0]
+        metric = metric
+        _index = annoy.AnnoyIndex(n_trees=n_trees, f=dimensionality, metric=metric)
+        return AnnoyIndex(_index, dimensionality, num_examples, metric)
 
     def _build_index(self, data, n_trees):
         for i, item in enumerate(data):
