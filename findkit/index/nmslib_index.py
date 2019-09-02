@@ -5,7 +5,6 @@ from ..index.index import Index
 
 @attr.s
 class NMSLIBIndex(Index):
-
     _index = attr.ib()
 
     @staticmethod
