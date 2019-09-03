@@ -20,7 +20,7 @@ def mxnet_module():
     loss = mx.sym.MakeLoss(y)
 
     module = mx.mod.Module(loss, label_names=['y_label'])
-    module.bind([('data', (5, 5))], [('y_label', (5, 1))])
+    module.bind([('data', (100, 11))], [('y_label', (100, 1))])
     module.init_params()
 
     return module
