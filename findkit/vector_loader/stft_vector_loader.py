@@ -1,5 +1,11 @@
 from .function_vector_loader import FunctionVectorLoader
-import librosa
+
+
+try:
+    import librosa
+except ImportError:
+    import logging
+    logging.info('Warning: you did not install librosa')
 
 
 class STFTVectorLoader(FunctionVectorLoader):

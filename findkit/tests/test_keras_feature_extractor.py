@@ -10,7 +10,7 @@ from findkit.feature_extractor import KerasFeatureExtractor
 
 @pytest.fixture
 def keras_model():
-    input_tensor = Input(shape=(5, ))
+    input_tensor = Input(shape=(11, ))
 
     hid_z = Dense(1)(input_tensor)
     hid_a = Activation('sigmoid', name='hidden_layer')(hid_z)
@@ -22,7 +22,7 @@ def keras_model():
 
 @pytest.fixture
 def fake_target():
-    return np.random.randn(5)
+    return np.random.randn(100)
 
 
 def test_keras_feature_extractor(fake_random_data, fake_target, keras_model):
@@ -31,4 +31,4 @@ def test_keras_feature_extractor(fake_random_data, fake_target, keras_model):
     feature_extractor = KerasFeatureExtractor(keras_model, 'hidden_layer')
 
     features = feature_extractor.extract_features(fake_random_data)
-    assert features.shape == (5, 1)
+    assert features.shape == (100, 1)

@@ -29,7 +29,7 @@ class KerasFeatureExtractor(FeatureExtractor):
 
     @classmethod
     def truncate_model(cls, keras_model, layer_name):
-        from keras.models import Model
+        model_cls = keras_model.__class__
 
         intermediate_layer = keras_model.get_layer(name=layer_name)
-        return Model(inputs=[keras_model.input], outputs=[intermediate_layer.output])
+        return model_cls(inputs=[keras_model.input], outputs=[intermediate_layer.output])
