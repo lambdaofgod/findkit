@@ -8,13 +8,15 @@ class AnnoyIndex(Index):
     import annoy
 
     _index: annoy.AnnoyIndex = attr.ib()
+    _metadata = attr.ib()
     dimensionality: int = attr.ib()
     num_examples: int = attr.ib()
     metric: str = attr.ib()
 
     @staticmethod
-    def build(data, n_trees, metric='euclidean'):
+    def build(data, metadata=None, n_trees=25, metric='euclidean'):
         import annoy
+        metadata = Index._get_valid_metadata(data, metadata)
         dimensionality = data.shape[1]
         num_examples = data.shape[0]
         metric = metric
@@ -22,9 +24,9 @@ class AnnoyIndex(Index):
         for i, item in enumerate(data):
             _index.add_item(i, item)
         _index.build(n_trees)
-        return AnnoyIndex(_index, dimensionality, num_examples, metric)
+        this = AnnoyIndex(_index, metadata, dimensionality, num_examples, metric)
+        return this
 
-
-    def find_similar(self, query_object, n_returned):
+    def find_similar_raw(self, query_object, n_returned):
         return self._index.get_nns_by_vector(query_object, n=n_returned, include_distances=True)
 
