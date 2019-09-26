@@ -1,7 +1,6 @@
 import attr
 
 from ..index.index import Index
-import nmslib
 
 
 @attr.s
@@ -11,6 +10,7 @@ class NMSLIBIndex(Index):
 
     @staticmethod
     def build(data, metadata=None, method='hnsw', metric='l2', print_progress=True):
+        import nmslib
         metadata = Index._get_valid_metadata(data, metadata)
         _index = nmslib.init(method=method, space=metric)
         _index.addDataPointBatch(data)
