@@ -3,7 +3,7 @@ from .function_vector_loader import FunctionVectorLoader
 
 try:
     import librosa
-except ImportError:
+except:
     import logging
     logging.info('Warning: you did not install librosa')
 

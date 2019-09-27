@@ -1,9 +1,9 @@
 from findkit.vector_loader import STFTVectorLoader
-import librosa
 import numpy
 
-
 def test_load_from_files():
+
+    import librosa
     audio_path = librosa.util.example_audio_file() # Kevin_MacLeod_-_Vibe_Ace.ogg
 
     sampling_rate = 22050
