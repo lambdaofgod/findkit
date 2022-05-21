@@ -5,7 +5,8 @@ try:
     import librosa
 except:
     import logging
-    logging.info('Warning: you did not install librosa')
+
+    logging.info("Warning: you did not install librosa")
 
 
 class STFTVectorLoader(FunctionVectorLoader):
@@ -28,7 +29,14 @@ class STFTVectorLoader(FunctionVectorLoader):
         librosa loader parameter, see https://librosa.github.io/librosa/generated/librosa.core.load.html
     """
 
-    def __init__(self, sampling_rate, n_fft=1024, hop_length=512, window='hann', res_type='kaiser_fast'):
+    def __init__(
+        self,
+        sampling_rate,
+        n_fft=1024,
+        hop_length=512,
+        window="hann",
+        res_type="kaiser_fast",
+    ):
         self.sampling_rate = sampling_rate
         self.n_fft = n_fft
         self.hop_length = hop_length
@@ -43,7 +51,9 @@ class STFTVectorLoader(FunctionVectorLoader):
         return Y
 
     def _get_stft(self, wave):
-        return librosa.stft(wave, n_fft=self.n_fft, window=self.window, hop_length=self.hop_length)
+        return librosa.stft(
+            wave, n_fft=self.n_fft, window=self.window, hop_length=self.hop_length
+        )
 
     def _validate_path(self, file_path):
         return True

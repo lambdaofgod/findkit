@@ -3,10 +3,10 @@ import pandas as pd
 
 
 class Index:
-
     def find_similar(self, query_object, n_returned):
         """
         Perform nearest neighbor query on index
+        and return relevant metadata
 
         Parameters
         ----------
@@ -23,9 +23,9 @@ class Index:
         """
         metadata = self.get_metadata()
         indices, distances = self.find_similar_raw(query_object, n_returned)
-        rows = metadata.iloc[indices]
-        rows['distance'] = distances
-        return rows
+        results = metadata.iloc[indices]
+        distances = pd.Series(distances, name="distance", index=results.index)
+        return pd.concat([results, distances], axis=1)
 
     def find_similar_raw(self, query_object, n_returned):
         """
@@ -62,6 +62,9 @@ class Index:
     @classmethod
     def _get_valid_metadata(cls, data, metadata):
         if metadata is None:
-            metadata = pd.DataFrame({'i': np.arange(data.shape[0])})
-        assert cls._check_metadata_consistency(data, metadata)
+            metadata = pd.DataFrame({"i": np.arange(data.shape[0])})
+        assert type(metadata) is pd.DataFrame, "metadata should be a pandas DataFrame"
+        assert cls._check_metadata_consistency(
+            data, metadata
+        ), "metadata shape should match data shape"
         return metadata

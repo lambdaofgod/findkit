@@ -9,8 +9,9 @@ class NMSLIBIndex(Index):
     _metadata = attr.ib()
 
     @staticmethod
-    def build(data, metadata=None, method='hnsw', metric='l2', print_progress=True):
+    def build(data, metadata=None, method="hnsw", metric="l2", print_progress=True):
         import nmslib
+
         metadata = Index._get_valid_metadata(data, metadata)
         _index = nmslib.init(method=method, space=metric)
         _index.addDataPointBatch(data)

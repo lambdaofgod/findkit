@@ -1,7 +1,4 @@
-
-
 class FeatureExtractor:
-
     def extract_features(self, data, **kwargs):
         """
         wrapped model to transform data

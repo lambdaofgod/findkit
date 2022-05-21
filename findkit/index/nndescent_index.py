@@ -17,6 +17,6 @@ class NNDescentIndex(Index):
         return NNDescentIndex(nnd_index, metadata)
 
     def find_similar_raw(self, query_object, n_returned):
-        self._index.rng_state = np.array([42,42,42], dtype=np.int64)
+        self._index.rng_state = np.array([42, 42, 42], dtype=np.int64)
         indices, dists = self._index.query(query_object.reshape(1, -1), k=n_returned)
         return indices.reshape(-1), dists.reshape(-1)

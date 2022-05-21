@@ -18,4 +18,3 @@ def test_sklearn_feature_extractor(fake_random_data):
 
     assert pca_projected_data.shape == (100, 2)
     assert np.linalg.norm(pca_projected_data - extractor_projected_data) < TOL
-

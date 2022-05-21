@@ -21,7 +21,7 @@ class KerasFeatureExtractor(FeatureExtractor):
         self.transformer = model
 
     def extract_features(self, data, **kwargs):
-        batch_size = kwargs.get('batch_size')
+        batch_size = kwargs.get("batch_size")
         return self.transformer.predict(data, batch_size=batch_size)
 
     def extract_features_generator(self, data_generator, **kwargs):
@@ -32,4 +32,6 @@ class KerasFeatureExtractor(FeatureExtractor):
         model_cls = keras_model.__class__
 
         intermediate_layer = keras_model.get_layer(name=layer_name)
-        return model_cls(inputs=[keras_model.input], outputs=[intermediate_layer.output])
+        return model_cls(
+            inputs=[keras_model.input], outputs=[intermediate_layer.output]
+        )

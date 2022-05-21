@@ -15,11 +15,11 @@ class MockIndex(Index):
 
 def test_metadata_filter():
 
-    metadata = pd.DataFrame({'name': ['foo', 'bar'], 'x': [1, 2]})
+    metadata = pd.DataFrame({"name": ["foo", "bar"], "x": [1, 2]})
 
     mock_index = MockIndex(metadata)
     query_result = mock_index.find_similar(None, 1)
     expected_query_result = metadata.iloc[:1].copy()
-    expected_query_result['distance'] = 0
+    expected_query_result["distance"] = 0
 
     assert query_result.equals(expected_query_result)
