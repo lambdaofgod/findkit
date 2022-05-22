@@ -20,6 +20,7 @@ class NMSLIBIndex(Index):
 
     _index = attr.ib()
     _metadata = attr.ib()
+    _dim = attr.ib()
 
     @staticmethod
     def build(data, metadata=None, method="hnsw", distance="l2", print_progress=True):
@@ -27,13 +28,18 @@ class NMSLIBIndex(Index):
 
         assert distance in NMSLIBIndex.AVAILABLE_DISTANCES
         metadata = Index._get_valid_metadata(data, metadata)
+        dimensionality = data.shape[1]
         _index = nmslib.init(method=method, space=distance)
         _index.addDataPointBatch(data)
         _index.createIndex(print_progress=print_progress)
-        return NMSLIBIndex(_index, metadata)
+        return NMSLIBIndex(_index, metadata, dimensionality)
 
     def find_similar_raw(self, query_object, n_returned):
+        assert query_object.shape[0] == self.get_dimensionality()
         return self._index.knnQuery(query_object, k=n_returned)
+
+    def get_dimensionality(self):
+        return self._dim
 
     AVAILABLE_DISTANCES = [
         "bit_hamming",

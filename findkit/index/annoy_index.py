@@ -9,7 +9,7 @@ class AnnoyIndex(Index):
 
     _index: annoy.AnnoyIndex = attr.ib()
     _metadata = attr.ib()
-    dimensionality: int = attr.ib()
+    _dim: int = attr.ib()
     num_examples: int = attr.ib()
     metric: str = attr.ib()
 
@@ -29,6 +29,10 @@ class AnnoyIndex(Index):
         return this
 
     def find_similar_raw(self, query_object, n_returned):
+        assert query_object.shape[0] == self.get_dimensionality()
         return self._index.get_nns_by_vector(
             query_object, n=n_returned, include_distances=True
         )
+
+    def get_dimensionality(self):
+        return self._dim

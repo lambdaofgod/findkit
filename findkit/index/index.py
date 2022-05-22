@@ -68,3 +68,6 @@ class Index:
             data, metadata
         ), "metadata shape should match data shape"
         return metadata
+
+    def get_dimensionality(self) -> int:
+        raise NotImplementedError()
