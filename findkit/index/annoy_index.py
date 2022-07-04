@@ -1,21 +1,28 @@
-import attr
+from dataclasses import dataclass
+
+import pandas as pd
 
 from ..index.index import Index
 
-
-@attr.s
-class AnnoyIndex(Index):
+try:
     import annoy
 
-    _index: annoy.AnnoyIndex = attr.ib()
-    _metadata = attr.ib()
-    _dim: int = attr.ib()
-    num_examples: int = attr.ib()
-    metric: str = attr.ib()
+    AnnoyIndexImpl = annoy.AnnoyIndex
+except ModuleNotFoundError:
+    AnnoyIndexImpl = "Annoy not found"
+
+
+@dataclass(frozen=True)
+class AnnoyIndex(Index):
+
+    _index: AnnoyIndexImpl
+    _num_examples: int
+    _metric: str
+    _metadata: pd.DataFrame
+    _dimensionality: int
 
     @staticmethod
     def build(data, metadata=None, n_trees=25, metric="euclidean"):
-        import annoy
 
         metadata = Index._get_valid_metadata(data, metadata)
         dimensionality = data.shape[1]
@@ -25,14 +32,17 @@ class AnnoyIndex(Index):
         for i, item in enumerate(data):
             _index.add_item(i, item)
         _index.build(n_trees)
-        this = AnnoyIndex(_index, metadata, dimensionality, num_examples, metric)
+        this = AnnoyIndex(_index, num_examples, metric, metadata, dimensionality)
         return this
 
     def find_similar_raw(self, query_object, n_returned):
-        assert query_object.shape[0] == self.get_dimensionality()
+        self.validate_input_data(query_object)
         return self._index.get_nns_by_vector(
             query_object, n=n_returned, include_distances=True
         )
 
-    def get_dimensionality(self):
-        return self._dim
+    def metadata(self):
+        return self._metadata
+
+    def dimensionality(self):
+        return self._dimensionality

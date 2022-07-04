@@ -1,4 +1,8 @@
-class FeatureExtractor:
+from abc import ABC, abstractmethod
+
+
+class FeatureExtractor(ABC):
+    @abstractmethod
     def extract_features(self, data, **kwargs):
         """
         wrapped model to transform data
@@ -12,4 +16,4 @@ class FeatureExtractor:
         -------
         transformed_data : numpy array of shape (shape (data.shape[0], dimensionality))
         """
-        raise NotImplementedError()
+        pass

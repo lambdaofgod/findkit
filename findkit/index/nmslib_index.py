@@ -1,9 +1,19 @@
-import attr
+from dataclasses import dataclass
+from typing import Any
+
+import pandas as pd
 
 from ..index.index import Index
 
+try:
+    import nmslib
 
-@attr.s
+    NMSLIBFloatIndex = nmslib.dist.FloatIndex
+except ModuleNotFoundError:
+    NMSLIBFloatIndex = "NMSLib not found"
+
+
+@dataclass(frozen=True)
 class NMSLIBIndex(Index):
     """
     Index using Non-Metric Space Library.
@@ -18,15 +28,16 @@ class NMSLIBIndex(Index):
     https://github.com/nmslib/nmslib/blob/master/manual/latex/manual.pdf
     """
 
-    _index = attr.ib()
-    _metadata = attr.ib()
-    _dim = attr.ib()
+    _index: NMSLIBFloatIndex
+    _metadata: pd.DataFrame
+    _dimensionality: int
 
     @staticmethod
     def build(data, metadata=None, method="hnsw", distance="l2", print_progress=True):
-        import nmslib
 
-        assert distance in NMSLIBIndex.AVAILABLE_DISTANCES
+        assert (
+            distance in NMSLIBIndex.AVAILABLE_DISTANCES
+        ), f"distance should be one of {NMSLIBIndex.AVAILABLE_DISTANCES}"
         metadata = Index._get_valid_metadata(data, metadata)
         dimensionality = data.shape[1]
         _index = nmslib.init(method=method, space=distance)
@@ -35,11 +46,14 @@ class NMSLIBIndex(Index):
         return NMSLIBIndex(_index, metadata, dimensionality)
 
     def find_similar_raw(self, query_object, n_returned):
-        assert query_object.shape[0] == self.get_dimensionality()
+        self.validate_input_data(query_object)
         return self._index.knnQuery(query_object, k=n_returned)
 
-    def get_dimensionality(self):
-        return self._dim
+    def metadata(self):
+        return self._metadata
+
+    def dimensionality(self):
+        return self._dimensionality
 
     AVAILABLE_DISTANCES = [
         "bit_hamming",

@@ -8,8 +8,8 @@ def test_annoy_index(fake_random_data):
     index = AnnoyIndex.build(fake_random_data, n_trees=10)
 
     n_examples, dimensionality = fake_random_data.shape
-    assert index.dimensionality == dimensionality
-    assert index.num_examples == n_examples
+    assert index.dimensionality() == dimensionality
+    assert index._num_examples == n_examples
 
 
 def test_annoy_index_query(fake_query, fake_random_data):

@@ -12,6 +12,11 @@ class MockIndex(Index):
     def find_similar_raw(self, query_object, n_returned):
         return list(range(n_returned)), [0]
 
+    def metadata(self):
+        return self._metadata
+
+    def dimensionality(self):
+        return 1
 
 def test_metadata_filter():
 
