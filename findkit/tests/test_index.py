@@ -18,6 +18,7 @@ class MockIndex(Index):
     def dimensionality(self):
         return 1
 
+
 def test_metadata_filter():
 
     metadata = pd.DataFrame({"name": ["foo", "bar"], "x": [1, 2]})

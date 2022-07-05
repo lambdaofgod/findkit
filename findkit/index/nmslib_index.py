@@ -32,6 +32,8 @@ class NMSLIBIndex(Index):
     _index: NMSLIBFloatIndex
     _metadata: pd.DataFrame
     _dimensionality: int
+    _method: str
+    _distance: str
 
     @staticmethod
     def build(data, metadata=None, method="hnsw", distance="l2", print_progress=True):
@@ -44,7 +46,7 @@ class NMSLIBIndex(Index):
         _index = nmslib.init(method=method, space=distance)
         _index.addDataPointBatch(data)
         _index.createIndex(print_progress=print_progress)
-        return NMSLIBIndex(_index, metadata, dimensionality)
+        return NMSLIBIndex(_index, metadata, dimensionality, method, distance)
 
     def find_similar_raw(
         self, query_object: np.ndarray, n_returned: int
@@ -57,6 +59,22 @@ class NMSLIBIndex(Index):
 
     def dimensionality(self):
         return self._dimensionality
+
+    def _get_config(self):
+        return {
+            "_method": self._method,
+            "_distance": self._distance,
+            "_dimensionality": self._dimensionality,
+        }
+
+    def _save_index(self, index_path):
+        self._index.saveIndex(str(index_path))
+
+    @classmethod
+    def _load_from_disk(cls, index_path, config, metadata):
+        index = nmslib.init(method=config["_method"], space=config["_distance"])
+        index.loadIndex(str(index_path))
+        return NMSLIBIndex(index, metadata, **config)
 
     AVAILABLE_DISTANCES = [
         "bit_hamming",

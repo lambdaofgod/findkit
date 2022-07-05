@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
 from abc import ABC, abstractmethod
-from typing import Tuple
+from typing import Tuple, Dict
+import pathlib
+import json
 
 
 class Index(ABC):
@@ -61,6 +63,38 @@ class Index(ABC):
 
     @abstractmethod
     def dimensionality(self) -> int:
+        pass
+
+    def save(self, path: str):
+        path = pathlib.Path(path)
+        path.mkdir(exist_ok=True)
+        config = self._get_config()
+        self.metadata().to_csv(path / "metadata.csv")
+        with open(path / "config.json", "w") as f:
+            json.dump(config, f)
+        self._save_index(path / "index.bin")
+
+    @classmethod
+    def load(cls, path: str):
+        path = pathlib.Path(path)
+        metadata = pd.read_csv(path / "metadata.csv")
+        with open(path / "config.json", "r") as f:
+            config = json.load(f)
+        return cls._load_from_disk(path / "index.bin", config, metadata)
+
+    @abstractmethod
+    def _get_config(self) -> Dict:
+        """
+        get config for saving and loading from disk
+        """
+
+    @abstractmethod
+    def _save_index(self, path: str):
+        pass
+
+    @classmethod
+    @abstractmethod
+    def _load_from_disk(self, path: str, config: Dict, metadata: pd.DataFrame):
         pass
 
     @classmethod
