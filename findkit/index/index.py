@@ -4,7 +4,6 @@ from abc import ABC, abstractmethod
 
 
 class Index(ABC):
-
     def find_similar(self, query_object, n_returned):
         """
         Perform nearest neighbor query on index
@@ -66,9 +65,9 @@ class Index(ABC):
         return data.shape[0] == metadata.shape[0]
 
     def validate_input_data(self, query_object):
-        query_dim = query_object.shape[-1]
+        query_shape = query_object.shape
         dim = self.dimensionality()
-        assert query_dim == dim, f"shape of query {query_dim} != {dim} shape of data "
+        assert query_shape == (dim,), f"shape of query {query_shape} != {(dim, )} shape of data "
 
     @classmethod
     def _get_valid_metadata(cls, data, metadata):
