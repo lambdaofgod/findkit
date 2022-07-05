@@ -1,5 +1,7 @@
 from dataclasses import dataclass
+from typing import Any, Tuple
 
+import numpy as np
 import pandas as pd
 
 from ..index.index import Index
@@ -35,7 +37,9 @@ class AnnoyIndex(Index):
         this = AnnoyIndex(_index, num_examples, metric, metadata, dimensionality)
         return this
 
-    def find_similar_raw(self, query_object, n_returned):
+    def find_similar_raw(
+        self, query_object: np.ndarray, n_returned: int
+    ) -> Tuple[np.ndarray, np.ndarray]:
         self.validate_input_data(query_object)
         return self._index.get_nns_by_vector(
             query_object, n=n_returned, include_distances=True

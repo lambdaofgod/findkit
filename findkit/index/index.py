@@ -1,10 +1,11 @@
 import numpy as np
 import pandas as pd
 from abc import ABC, abstractmethod
+from typing import Tuple
 
 
 class Index(ABC):
-    def find_similar(self, query_object, n_returned):
+    def find_similar(self, query_object: np.ndarray, n_returned: int) -> pd.DataFrame:
         """
         Perform nearest neighbor query on index
         and return relevant metadata
@@ -28,7 +29,9 @@ class Index(ABC):
         return pd.concat([results, distances], axis=1)
 
     @abstractmethod
-    def find_similar_raw(self, query_object, n_returned):
+    def find_similar_raw(
+        self, query_object: np.ndarray, n_returned: int
+    ) -> Tuple[np.ndarray, np.ndarray]:
         """
         Perform nearest neighbor query on index,
         but return only information of retrieved items' index positions and distance
@@ -67,7 +70,9 @@ class Index(ABC):
     def validate_input_data(self, query_object):
         query_shape = query_object.shape
         dim = self.dimensionality()
-        assert query_shape == (dim,), f"shape of query {query_shape} != {(dim, )} shape of data "
+        assert query_shape == (
+            dim,
+        ), f"shape of query {query_shape} != {(dim, )} shape of data "
 
     @classmethod
     def _get_valid_metadata(cls, data, metadata):

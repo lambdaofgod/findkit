@@ -1,6 +1,7 @@
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Tuple
 
+import numpy as np
 import pandas as pd
 
 from ..index.index import Index
@@ -45,7 +46,9 @@ class NMSLIBIndex(Index):
         _index.createIndex(print_progress=print_progress)
         return NMSLIBIndex(_index, metadata, dimensionality)
 
-    def find_similar_raw(self, query_object, n_returned):
+    def find_similar_raw(
+        self, query_object: np.ndarray, n_returned: int
+    ) -> Tuple[np.ndarray, np.ndarray]:
         self.validate_input_data(query_object)
         return self._index.knnQuery(query_object, k=n_returned)
 
