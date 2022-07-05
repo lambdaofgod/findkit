@@ -18,6 +18,15 @@ class MockIndex(Index):
     def dimensionality(self):
         return 1
 
+    def _get_config(self):
+        return dict
+
+    @classmethod
+    def _load_from_disk(cls, path):
+        return MockIndex()
+
+    def _save_index(self, path):
+        pass
 
 def test_metadata_filter():
 

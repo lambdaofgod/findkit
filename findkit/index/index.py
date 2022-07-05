@@ -83,7 +83,7 @@ class Index(ABC):
         return cls._load_from_disk(path / "index.bin", config, metadata)
 
     @abstractmethod
-    def _get_config(self) -> Dict:
+    def _get_config(self) -> dict:
         """
         get config for saving and loading from disk
         """
@@ -94,7 +94,7 @@ class Index(ABC):
 
     @classmethod
     @abstractmethod
-    def _load_from_disk(self, path: str, config: Dict, metadata: pd.DataFrame):
+    def _load_from_disk(self, path: str, config: dict, metadata: pd.DataFrame):
         pass
 
     @classmethod

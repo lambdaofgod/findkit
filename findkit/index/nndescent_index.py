@@ -43,3 +43,19 @@ class NNDescentIndex(Index):
 
     def get_dimensionality(self):
         return self.dimensionality
+
+    def _get_config(self) -> dict:
+        """
+        get config for saving and loading from disk
+        """
+        return {"_dimensionality": self._dimensionality}
+
+    def _save_index(self, path: str):
+        with open(path, "wb") as f:
+            pickle.dump(self._index, f)
+
+    @classmethod
+    def _load_from_disk(self, path: str, config: dict, metadata: pd.DataFrame):
+        with open(path, "rb") as f:
+            _index = pickle.load(f)
+        return NNDescentIndex(_index, metadata, **config)
