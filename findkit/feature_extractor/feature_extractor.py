@@ -2,11 +2,13 @@ from abc import ABC, abstractmethod
 
 
 class FeatureExtractor(ABC):
+    """
+    wrapped model to transform data
+    """
+
     @abstractmethod
     def extract_features(self, data, **kwargs):
         """
-        wrapped model to transform data
-
         Parameters
         ----------
         data : numpy array
