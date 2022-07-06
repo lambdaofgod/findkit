@@ -6,6 +6,5 @@ pytest
 nmslib
 keras>=2.0.0
 mxnet>=1.0.0
-annoy>=1.0.0
 librosa>=0.6.2
 mock

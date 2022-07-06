@@ -6,20 +6,23 @@ import numpy as np
 from .feature_extractor import FeatureExtractor
 
 
+SentenceEncoderInput = Union[str, List[str]]
+
+
 class SentenceEncoder(Protocol):
     """
     protocol for types that have defined `encode` method
     like SentenceTransformer class
     """
 
-    def encode(self, sentences: Union[str, List[str]]) -> np.ndarray:
+    def encode(self, sentences: SentenceEncoderInput) -> np.ndarray:
         pass
 
 
 @dataclass(frozen=True)
-class SentenceEncoderFeatureExtractor(FeatureExtractor):
+class SentenceEncoderFeatureExtractor(FeatureExtractor[SentenceEncoderInput]):
 
     encoder: SentenceEncoder
 
-    def extract_features(self, data: Union[str, List[str]], **kwargs):
+    def extract_features(self, data: SentenceEncoderInput, **kwargs):
         return self.encoder.encode(data, **kwargs)

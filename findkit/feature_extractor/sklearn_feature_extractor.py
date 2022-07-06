@@ -21,7 +21,7 @@ class SklearnTransformer(Protocol):
 
 
 @dataclass(frozen=True)
-class SklearnFeatureExtractor(FeatureExtractor):
+class SklearnFeatureExtractor(FeatureExtractor[MatrixInput]):
     """
     Wrapper for scikit-learn style transformers
 

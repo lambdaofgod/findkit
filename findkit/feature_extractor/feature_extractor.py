@@ -1,21 +1,24 @@
 from abc import ABC, abstractmethod
+from typing import TypeVar, Generic
+
+T = TypeVar("T")
 
 
-class FeatureExtractor(ABC):
+class FeatureExtractor(ABC, Generic[T]):
     """
     wrapped model to transform data
     """
 
     @abstractmethod
-    def extract_features(self, data, **kwargs):
+    def extract_features(self, data: T, **kwargs):
         """
         Parameters
         ----------
-        data : numpy array
-
+        data : type depends on context - some extractors work on strings, other on numpy arrays
+        the only restriction here is that data is supposed to fit in memory
 
         Returns
         -------
-        transformed_data : numpy array of shape (shape (data.shape[0], dimensionality))
+        transformed_data : numpy array of shape (shape (len(data), dimensionality))
         """
         pass
