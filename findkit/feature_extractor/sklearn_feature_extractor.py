@@ -36,7 +36,12 @@ class SklearnFeatureExtractor(FeatureExtractor[MatrixInput]):
     transformer: SklearnTransformer
 
     def extract_features(self, data: MatrixInput, **kwargs):
-        return self.transformer.transform(data)
+        if type(data) is str:
+            return self.transformer.transform([data])
+        if len(data.shape) == 1:
+            return self.transformer.transform([data])
+        else:
+            return self.transformer.transform(data)
 
     def fit_extract_features(self, data: MatrixInput, **kwargs):
         return self.transformer.fit_transform(data)

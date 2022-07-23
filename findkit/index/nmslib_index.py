@@ -36,7 +36,9 @@ class NMSLIBIndex(Index):
     _distance: str
 
     @staticmethod
-    def build(data, metadata=None, method="hnsw", distance="l2", print_progress=True):
+    def build(
+        data, metadata=None, method="hnsw", distance="l2", print_progress=True, **kwargs
+    ):
 
         assert (
             distance in NMSLIBIndex.AVAILABLE_DISTANCES

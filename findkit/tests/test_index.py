@@ -28,6 +28,7 @@ class MockIndex(Index):
     def _save_index(self, path):
         pass
 
+
 def test_metadata_filter():
 
     metadata = pd.DataFrame({"name": ["foo", "bar"], "x": [1, 2]})
