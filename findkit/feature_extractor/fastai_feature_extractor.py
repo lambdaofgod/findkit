@@ -74,7 +74,7 @@ class FastaiTextFeatureExtractor(FeatureExtractor[SentenceEncoderInput]):
 
     def _get_dataloader(self, data):
         collate_fn = toolz.partial(
-            get_padded_nums_batch_with_mask, max_length=self.max_length, pad_token_idx=2
+            get_padded_batch_with_mask, max_length=self.max_length, pad_token_idx=2
         )
         return torch.utils.data.DataLoader(
             self._get_dataset(data),
@@ -106,16 +106,17 @@ class FastaiSequenceDataset(torch.utils.data.Dataset):
         return self.numericalizer(tokens)
 
 
-def get_padded_nums_batch_with_mask(nums, max_length=None, pad_token_idx=2):
-    lengths = [len(n) for n in nums]
+def get_padded_batch_with_mask(inputs, max_length=None, pad_token_idx=2):
+    lengths = [len(n) for n in inputs]
     if max_length is None:
         max_length = max(lengths)
-    mask = torch.zeros((len(nums), max_length))
-    nums_tensors = (
-        torch.ones((len(nums), max_length), dtype=torch.int64) * pad_token_idx
+    mask = torch.zeros((len(inputs), max_length))
+    inputs_tensors = (
+        torch.ones((len(inputs), max_length), dtype=torch.int64) * pad_token_idx
     )
     for i, l in enumerate(lengths):
-        step_max_length = min(nums[i], max_length)
-        nums_tensors[i][:step_max_length] = nums[i][:step_max_length]
+        input = inputs[i]
+        step_max_length = min(len(input), max_length)
+        inputs_tensors[i][:step_max_length] = input[:step_max_length]
         mask[i][:l] = 1
-    return nums_tensors, mask
+    return inputs_tensors, mask
