@@ -7,6 +7,7 @@ import torch
 import torch.utils.data
 import tqdm
 from fastai.text import all as text
+from findkit.util import masked_mean_pool
 
 from .feature_extractor import FeatureExtractor
 
@@ -15,22 +16,8 @@ SentenceEncoderInput = Union[str, List[str]]
 PoolingFn = Callable[[torch.Tensor], torch.Tensor]
 
 
-def masked_mean_pool(inputs: torch.Tensor, mask: torch.Tensor, axis: int = 1):
-    if len(mask.shape) != len(inputs.shape):
-        mask = mask.unsqueeze(-1)
-    mask = mask.to(inputs.device)
-    return (inputs * mask).sum(axis=1) / mask.sum(axis=1)
-
-
-def masked_max_pool(inputs: torch.Tensor, mask: torch.Tensor, axis: int = 1):
-    if len(mask.shape) != len(inputs.shape):
-        mask = mask.unsqueeze(-1)
-    mask = mask.to(inputs.device)
-    return (inputs * mask).max(axis=1)
-
-
 @dataclass
-class FastaiTextFeatureExtractor(FeatureExtractor[SentenceEncoderInput]):
+class FastAITextFeatureExtractor(FeatureExtractor[SentenceEncoderInput]):
 
     max_length: int
     fastai_learner: text.LMLearner
@@ -42,14 +29,43 @@ class FastaiTextFeatureExtractor(FeatureExtractor[SentenceEncoderInput]):
     pooling_fns: List[PoolingFn] = field(default_factory=lambda: [masked_mean_pool])
     device: str = field(default="cuda")
 
+    @staticmethod
+    def build_from_learner(
+        fastai_learner: text.LMLearner,
+        max_length: int,
+        pad_token_idx: int = 2,
+        batch_size: int = 256,
+        pooling_fns: List[PoolingFn] = [masked_mean_pool],
+        dataloader_num_workers: int = 0,
+        device: str = "cuda",
+    ):
+        tokenizer = fastai_learner.dls.tokenizer
+        numericalizer = fastai_learner.dls.tfms[-1]
+        return FastAITextFeatureExtractor(
+            max_length,
+            fastai_learner,
+            tokenizer,
+            numericalizer,
+            pad_token_idx,
+            dataloader_num_workers,
+            batch_size,
+            pooling_fns,
+            device,
+        )
+
     def extract_features(
         self,
         data: SentenceEncoderInput,
+        show_progbar=True,
     ):
         dataloader = self._get_dataloader(data)
         embs = []
         with torch.no_grad():
-            for b, b_mask in tqdm.auto.tqdm(dataloader):
+            if show_progbar:
+                batch_iterator = tqdm.auto.tqdm(dataloader)
+            else:
+                batch_iterator = dataloader
+            for b, b_mask in batch_iterator:
                 b_embs = self._extract_batch_features(b, b_mask)
                 embs.append(b_embs)
         return np.row_stack(embs)

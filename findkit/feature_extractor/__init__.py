@@ -5,3 +5,4 @@ from ..feature_extractor.mxnet_feature_extractor import MXNetFeatureExtractor
 from ..feature_extractor.encoder_feature_extractor import (
     SentenceEncoderFeatureExtractor,
 )
+from ..feature_extractor.fastai_feature_extractor import FastAITextFeatureExtractor
