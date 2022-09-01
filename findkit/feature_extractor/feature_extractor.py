@@ -21,4 +21,9 @@ class FeatureExtractor(ABC, Generic[T]):
         -------
         transformed_data : numpy array of shape (shape (len(data), dimensionality))
         """
+
+    def save(self, path):
+        pass
+
+    def load(self, path):
         pass
