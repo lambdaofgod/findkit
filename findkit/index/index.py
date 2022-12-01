@@ -102,7 +102,7 @@ class Index(ABC):
         return data.shape[0] == metadata.shape[0]
 
     def validate_input_data(self, query_object):
-        query_shape = query_object.shape
+        query_shape = query_object.shape[-1:]
         dim = self.dimensionality()
         assert query_shape == (
             dim,

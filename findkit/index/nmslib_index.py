@@ -45,7 +45,7 @@ class NMSLIBIndex(Index):
         ), f"distance should be one of {NMSLIBIndex.AVAILABLE_DISTANCES}"
         metadata = Index._get_valid_metadata(data, metadata)
         dimensionality = data.shape[1]
-        _index = nmslib.init(method=method, space=distance)
+        _index = nmslib.init(method=method, space=distance, **kwargs)
         _index.addDataPointBatch(data)
         _index.createIndex(print_progress=print_progress)
         return NMSLIBIndex(_index, metadata, dimensionality, method, distance)
@@ -54,7 +54,8 @@ class NMSLIBIndex(Index):
         self, query_object: np.ndarray, n_returned: int
     ) -> Tuple[np.ndarray, np.ndarray]:
         self.validate_input_data(query_object)
-        return self._index.knnQuery(query_object, k=n_returned)
+        query_object = query_object.reshape(1, -1)
+        return self._index.knnQueryBatch(query_object, k=n_returned)[0]
 
     def metadata(self):
         return self._metadata

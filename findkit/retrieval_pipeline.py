@@ -25,7 +25,11 @@ class RetrievalPipelineFactory:
         index = self.index_factory(
             self.feature_extractor.extract_features(data), **kwargs
         )
-        return RetrievalPipeline(index=index, feature_extractor=self.feature_extractor, self.query_feature_extractor)
+        return RetrievalPipeline(
+            index=index,
+            feature_extractor=self.feature_extractor,
+            query_feature_extractor=self.query_feature_extractor,
+        )
 
     @classmethod
     def from_config(cls, config: serialization.PipelineConfig):

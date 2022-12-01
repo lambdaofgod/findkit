@@ -38,7 +38,7 @@ class SklearnFeatureExtractor(FeatureExtractor[MatrixInput]):
     def extract_features(self, data: MatrixInput, **kwargs):
         if type(data) is str:
             return self.transformer.transform([data])
-        if len(data.shape) == 1:
+        if len(data.shape) == 1 and len(data) == 1:
             return self.transformer.transform([data])
         else:
             return self.transformer.transform(data)
