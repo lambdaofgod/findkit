@@ -9,6 +9,10 @@ import pandas as pd
 import rank_bm25
 
 
+def wordpunct_tokenize_lowercase(text):
+    return tokenize.wordpunct_tokenize(text.lower())
+
+
 @dataclass
 class InMemoryBM25Index(Index):
 
@@ -19,7 +23,7 @@ class InMemoryBM25Index(Index):
     def build(
         corpus: Union[pd.Series, List[str], List[List[str]]],
         metadata: pd.DataFrame,
-        tokenize_fn=tokenize.wordpunct_tokenize,
+        tokenize_fn=wordpunct_tokenize_lowercase,
         bm25_cls=rank_bm25.BM25Okapi,
     ):
         if type(corpus) is pd.Series:
