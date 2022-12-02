@@ -1,7 +1,3 @@
-import logging
-
-logging.warn("findkit.feature_extractor is deprecated, use findkit.feature_extractors")
-
 from ..feature_extractor.sklearn_feature_extractor import SklearnFeatureExtractor
 from ..feature_extractor.feature_extractor import FeatureExtractor
 from ..feature_extractor.keras_feature_extractor import KerasFeatureExtractor
