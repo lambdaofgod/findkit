@@ -4,7 +4,13 @@ import pickle
 from findkit import index, feature_extractor
 
 
-INDEX_TYPES = {"NMSLIBIndex": index.NMSLIBIndex, "NNDescentIndex": index.NNDescentIndex}
+INDEX_TYPES = {"NMSLIBIndex": index.NMSLIBIndex}
+try:
+    import pynndescent
+except:
+    pass
+else:
+    INDEX_TYPES["NNDescentIndex"] = index.NNDescentIndex
 
 
 def get_index_factory(index_type):
