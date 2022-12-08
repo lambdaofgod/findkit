@@ -2,8 +2,5 @@ numpy
 pandas
 scikit-learn
 scipy
-Keras>=2.0.0
-pynndescent>=0.5.7
-fastai
 rank-bm25==0.2.1
 nltk
