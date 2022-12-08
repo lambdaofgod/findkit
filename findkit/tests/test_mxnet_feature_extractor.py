@@ -2,7 +2,8 @@ import pytest
 from .test_utils import fake_random_data
 from mxnet.io import NDArrayIter
 import mxnet as mx
-from findkit.feature_extractor import MXNetFeatureExtractor
+from findkit.feature_extractor import mxnet_feature_extractor
+
 import numpy as np
 
 
@@ -28,7 +29,7 @@ def mxnet_module():
 
 def test_mxnet_feature_extractor(fake_random_data, mxnet_module):
 
-    feature_extractor = MXNetFeatureExtractor(mxnet_module, "x")
+    feature_extractor = mxnet_feature_extractor.MXNetFeatureExtractor(mxnet_module, "x")
 
     extracted_features = feature_extractor.extract_features(fake_random_data)
 

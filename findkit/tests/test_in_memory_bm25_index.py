@@ -22,7 +22,7 @@ def test_bm25_index_query(corpus):
     n_neighbors = 3
     ids, distances = index.find_similar_raw("metric learning", n_neighbors)
     assert len(ids) == n_neighbors and len(distances) == n_neighbors
-    assert list(ids) == [0,1,2]
+    assert list(ids) == [0, 1, 2]
 
 
 # def test_bm25_index_save_load(fake_query, fake_random_data):

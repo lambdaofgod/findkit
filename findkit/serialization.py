@@ -6,11 +6,11 @@ from findkit import index, feature_extractor
 
 INDEX_TYPES = {"NMSLIBIndex": index.NMSLIBIndex}
 try:
-    import pynndescent
+    from index import nndescent_index
 except:
     pass
 else:
-    INDEX_TYPES["NNDescentIndex"] = index.NNDescentIndex
+    INDEX_TYPES["NNDescentIndex"] = nndescent_index.NNDescentIndex
 
 
 def get_index_factory(index_type):

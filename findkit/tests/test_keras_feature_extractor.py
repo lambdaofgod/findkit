@@ -5,7 +5,7 @@ import numpy as np
 from keras.layers import Dense, Input, Activation
 from keras.models import Model
 
-from findkit.feature_extractor import KerasFeatureExtractor
+from findkit.feature_extractor import keras_feature_extractor
 
 
 @pytest.fixture
@@ -28,7 +28,9 @@ def fake_target():
 def test_keras_feature_extractor(fake_random_data, fake_target, keras_model):
 
     keras_model.fit(fake_random_data, fake_target)
-    feature_extractor = KerasFeatureExtractor(keras_model, "hidden_layer")
+    feature_extractor = keras_feature_extractor.KerasFeatureExtractor(
+        keras_model, "hidden_layer"
+    )
 
     features = feature_extractor.extract_features(fake_random_data)
     assert features.shape == (100, 1)
