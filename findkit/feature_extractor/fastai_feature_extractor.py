@@ -56,14 +56,14 @@ class FastAITextFeatureExtractor(FeatureExtractor[SentenceEncoderInput]):
     def extract_features(
         self,
         data: SentenceEncoderInput,
-        show_progbar=True,
+        show_progress_bar=True,
     ):
         dataloader = self._get_dataloader(data)
         embs = []
 
         model = self._get_model()
         with torch.no_grad():
-            if show_progbar:
+            if show_progress_bar:
                 batch_iterator = tqdm.auto.tqdm(dataloader)
             else:
                 batch_iterator = dataloader
@@ -81,7 +81,7 @@ class FastAITextFeatureExtractor(FeatureExtractor[SentenceEncoderInput]):
                 pool(masked_embs, mask_batch, axis=1).cpu().numpy()
                 for pool in self.pooling_fns
             ]
-        )
+        ).astype(np.float16)
 
     def _get_model(self):
         model = self.fastai_learner.model[0].to(self.device)
@@ -104,6 +104,12 @@ class FastAITextFeatureExtractor(FeatureExtractor[SentenceEncoderInput]):
             batch_size=self.batch_size,
             num_workers=self.dataloader_num_workers,
         )
+
+    def save(self, path):
+        pass
+
+    def load(self, path):
+        pass
 
 
 class FastaiSequenceDataset(torch.utils.data.Dataset):
