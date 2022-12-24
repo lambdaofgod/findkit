@@ -1,3 +1,4 @@
+import findkit
 from findkit import feature_extractors, feature_extractor
 
 
